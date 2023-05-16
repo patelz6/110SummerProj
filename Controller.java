@@ -2,7 +2,8 @@ public class Controller {
     public static void main(String[] args) {
 
         // initialisation
-        
+        int p1Score = 0;
+        int p2Score = 0;
         
 
         // drawing main game and players
@@ -34,6 +35,36 @@ public class Controller {
         gameArena.addLine(middle);
         gameArena.addRectangle(goal1);
         gameArena.addRectangle(goal2);
+        
+        while(true){
+         // player1 with wall bounds
+                if (gameArena.letterPressed('a') && player1.getXPosition() > 225 + player1.getSize() / 2) {
+                    player1.move(-7, 0);
+                }
+                if (gameArena.letterPressed('d') && player1.getXPosition() < 745 - player1.getSize() / 2) {
+                    player1.move(7, 0);
+                }
+                if (gameArena.letterPressed('w') && player1.getYPosition() > 225 + player1.getSize() / 2) {
+                    player1.move(0, -7);
+                }
+                if (gameArena.letterPressed('s') && player1.getYPosition() < 770 - player1.getSize() / 2) {
+                    player1.move(0, 7);
+                }
+
+                // player2 with wall bounds
+                if (gameArena.leftPressed() && player2.getXPosition() > 755 + player2.getSize() / 2) {
+                    player2.move(-7, 0);
+                }
+                if (gameArena.rightPressed() && player2.getXPosition() < 1275 - player2.getSize() / 2) {
+                    player2.move(7, 0);
+                }
+                if (gameArena.upPressed() && player2.getYPosition() > 225 + player2.getSize() / 2) {
+                    player2.move(0, -7);
+                }
+                if (gameArena.downPressed() && player2.getYPosition() < 770 - player2.getSize() / 2) {
+                    player2.move(0, 7);
+                }
+        }
     }
 }
 
