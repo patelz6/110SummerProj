@@ -64,6 +64,58 @@ public class Controller {
                 if (gameArena.downPressed() && player2.getYPosition() < 770 - player2.getSize() / 2) {
                     player2.move(0, 7);
                 }
+            // puck collisions with walls
+                if (puck.getYPosition() < 225 + puck.getSize() / 2) {
+                    
+                
+                    ballSpeedY = ballSpeedY * -1;
+                    puck.setYPosition(puck.getYPosition() + 10);
+                }
+
+                if (puck.getYPosition() > 775 - puck.getSize() / 2) {
+                    
+                    
+                    ballSpeedY = ballSpeedY * -1;
+                    puck.setYPosition(puck.getYPosition() - 10);
+                }
+
+                if (puck.getXPosition() < 225 + puck.getSize() / 2) {
+                    
+                    ballSpeedX = ballSpeedX * -1;
+                    puck.setXPosition(puck.getXPosition() + 10);
+
+                }
+
+                if (puck.getXPosition() > 1275 - puck.getSize() / 2) {
+                    
+                    ballSpeedX = ballSpeedX * -1;
+                    puck.setXPosition(puck.getXPosition() - 10);
+                }
+
+                // puck movement with deflection physics
+                if (puck.collides(player1)) {
+                    
+                    Deflect deflection1 = new Deflect(30, 0, 30, 0, player1.getXPosition(), puck.getXPosition(), // added new contructor to given physics calculator in Deflect.java class
+                            player1.getYPosition(), puck.getYPosition());
+                    deflection1.deflect(); // calling deflect function
+                    ballSpeedX = deflection1.xSpeed2;
+                    ballSpeedY = deflection1.ySpeed2;
+                }
+
+                if (puck.collides(player2)) {
+                    
+                    Deflect deflection2 = new Deflect(30, 0, 30, 0, player2.getXPosition(), puck.getXPosition(),
+                            player2.getYPosition(), puck.getYPosition());
+                    deflection2.deflect();
+                    ballSpeedX = deflection2.xSpeed2;
+                    ballSpeedY = deflection2.ySpeed2;
+                }
+
+                // slow-down co-efficient of puck over distance
+                double friction = 0.995;
+                puck.move(ballSpeedX, ballSpeedY);
+                ballSpeedX = friction * ballSpeedX;
+                ballSpeedY = friction * ballSpeedY;
         }
     }
 }
