@@ -1,9 +1,13 @@
 public class Controller {
     public static void main(String[] args) {
-
+        
         // initialisation
+        double ballSpeedX = 0; // speed in x direction
+        double ballSpeedY = 0; // speed in y direction
+        
         int p1Score = 0;
         int p2Score = 0;
+        boolean canMove = true; // for reset game purposes after a win
         
 
         // drawing main game and players
@@ -37,6 +41,20 @@ public class Controller {
         gameArena.addRectangle(goal2);
         
         while(true){
+                if (canMove == false) { // resetter for once the game is over
+                    if (gameArena.spacePressed()) {
+                        p1Score = 0;
+                        p2Score = 0;
+                        player1.setXPosition(550);
+                        player1.setYPosition(500);
+                        player2.setXPosition(950);
+                        player2.setYPosition(500);
+                        puck.setXPosition(750);
+                        puck.setYPosition(500);
+                        topText.setText("Welcome to Air Hockey!");
+                        
+                        canMove = true;
+                    }
          // player1 with wall bounds
                 if (gameArena.letterPressed('a') && player1.getXPosition() > 225 + player1.getSize() / 2) {
                     player1.move(-7, 0);
@@ -116,6 +134,76 @@ public class Controller {
                 puck.move(ballSpeedX, ballSpeedY);
                 ballSpeedX = friction * ballSpeedX;
                 ballSpeedY = friction * ballSpeedY;
+            
+                // goal collisions
+
+                if (puck.getXPosition() < 240 + puck.getSize() / 2) { // if player 2 scores with x/y values of player 1's goal
+                    if (puck.getYPosition() < 650 + puck.getSize() / 2
+                            && puck.getYPosition() > 375 - puck.getSize() / 2) {
+                        if (p2Score == 5) {
+                            canMove = false;
+                            
+                            topText.setText("Player 2 wins! Play again?");
+                        } else {
+                            
+                            topText.setText("Player 2 scores!");
+                        }
+
+                        topText.setColour("GREEN");
+                        String[] score2Array = { "1", "2", "3", "4", "5", "6" }; // because text.setText only takes strings and Integer.toString would be inaccessible outside of gameloop
+
+                         // player 2 scores
+                        if (p2Score < 6) {
+                            p2score.setText(score2Array[p2Score]);
+                            p2Score++;
+                        }
+                        puck.setXPosition(midBall2.getXPosition() - 76);
+                        puck.setYPosition(500);
+                        player1.setXPosition(550);
+                        player1.setYPosition(500);
+                        player2.setXPosition(950);
+                        player2.setYPosition(500);
+                        ballSpeedX = 0;
+                        ballSpeedY = 0;
+                    }
+                }
+
+                if (puck.getXPosition() > 1275 - puck.getSize() / 2) { // if player 1 scores with x/y values of player 2's goal
+                    if (puck.getYPosition() < 650 + puck.getSize() / 2 && puck.getYPosition() > 375 - puck.getSize() / 2)
+                            {
+                        if (p1Score == 5)
+                        {
+                            canMove = false;
+                            
+                            topText.setText("Player 1 wins! Play again?");
+                        } else {
+                            
+                            topText.setText("Player 1 scores!");
+                        }
+
+                        topText.setColour("GREEN");
+                        
+                        String[] score1Array = { "1", "2", "3", "4", "5", "6" };
+
+                        // player 1 scores
+
+                        if (p1Score < 6) {
+                            p1score.setText(score1Array[p1Score]);
+                            p1Score++;
+                        }
+                        puck.setXPosition(midBall2.getXPosition() + 76); // 76 is radius of blue lined mid circle
+                        puck.setYPosition(500);
+                        player1.setXPosition(550);
+                        player1.setYPosition(500);
+                        player2.setXPosition(950);
+                        player2.setYPosition(500);
+                        ballSpeedX = 0;
+                        ballSpeedY = 0;
+                    }
+
+                    gameArena.pause();
+
+                }
         }
     }
 }
