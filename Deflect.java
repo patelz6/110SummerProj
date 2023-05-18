@@ -5,7 +5,7 @@ public class Deflect {
 
     
     
-    public Deflect(double XS1, double XS2, double YS1, double YS2, double XP1, double XP2, double YP1, double YP2){
+    public Deflect(double XS1, double XS2, double YS1, double YS2, double XP1, double XP2, double YP1, double YP2){ // constructor for use of given variables
         xSpeed1 = XS1;
         xSpeed2 = XS2;
         ySpeed1 = YS1;
