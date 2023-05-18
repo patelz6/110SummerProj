@@ -22,5 +22,7 @@ Sound on toggle - ENTER
 
 Sound off toggle - SHIFT
 
+(FIRST TO 6)
+
 
 
