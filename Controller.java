@@ -5,7 +5,7 @@ public class Controller {
         double ballSpeedX = 0; // speed in x direction
         double ballSpeedY = 0; // speed in y direction
         
-        int p1Score = 0;
+        int p1Score = 0; // scores for player 1 and two
         int p2Score = 0;
         boolean canMove = true; // for reset game purposes after a win
         boolean sound = true; // controls whether you can hear sound
@@ -136,7 +136,7 @@ public class Controller {
                     if (sound == true) {
                     SoundPlayer.playSound("bounce.wav");
                 }
-                    ballSpeedY = ballSpeedY * -1;
+                    ballSpeedY = ballSpeedY * -1; // to prevent puck from going out of bounds whilst keeping natural movement
                     puck.setYPosition(puck.getYPosition() + 10); // to prevent the puck being stuck constantly reflecting its speed out of bounds
                 }
 
@@ -170,7 +170,7 @@ public class Controller {
                 if (puck.collides(player1)) {
                     if (sound == true) {
                         SoundPlayer.playSound("hit.wav");
-                    }
+                    } // purposely ignoring the speed components for the player-controlled paddles to prevent unwanted recoil / movement
                     Deflect deflection1 = new Deflect(30, 0, 30, 0, player1.getXPosition(), puck.getXPosition(), player1.getYPosition(), puck.getYPosition());        
                     deflection1.deflect(); // calling deflect function
                     ballSpeedX = deflection1.xSpeed2;
@@ -193,7 +193,7 @@ public class Controller {
                 double friction = 0.995;
                 puck.move(ballSpeedX, ballSpeedY);
                 ballSpeedX = friction * ballSpeedX;
-                ballSpeedY = friction * ballSpeedY; 
+                ballSpeedY = friction * ballSpeedY;  // applying friction
 
                 // goal collisions
 
@@ -201,7 +201,7 @@ public class Controller {
                     if (puck.getYPosition() < 650 + puck.getSize() / 2
                             && puck.getYPosition() > 375 - puck.getSize() / 2) {
                         if (p2Score == 5) {
-                            canMove = false;
+                            canMove = false; // prevents movement as game is over (repeated for both players)
                             if (sound == true) {
                                 SoundPlayer.playSound("drumroll.wav");
                             }
@@ -253,7 +253,7 @@ public class Controller {
 
                         topText.setColour("GREEN");
                         
-                        String[] score1Array = { "1", "2", "3", "4", "5", "6" };
+                        String[] score1Array = { "1", "2", "3", "4", "5", "6" }; // to bypass String-only input for text.setText() (see line 217 comment)
 
                         // player 1 scores
 
